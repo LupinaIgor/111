@@ -1,5 +1,9 @@
 import {useEffect, useState} from "react";
 import ColorItem from "./ColorItem";
+import {toast} from "react-toastify";
+import MyLog from "../../helpers/MyLog";
+import {MyFetch} from "../../helpers/MyFetch";
+import ColorForm from "./ColorForm";
 
 export default () => {
 
@@ -7,21 +11,41 @@ export default () => {
 
     const [paginate, setPaginate] = useState({})
 
+    const delColor = (id) => {
+        MyFetch('ApiColor/' + id, {
+            method: "DELETE"
+        })
+            .then(res => {
+                MyLog(res)
+                setColors((prevColors) => prevColors.filter(color => color.id !== id));
+            })
+    }
+
+
     const getColors = () => {
 
-        fetch('https://localhost:44363/api/ApiColor')
-            .then(res => {
-                console.log(res)
-                console.log(res.status + " " + res.statusText)
-                return res.json()
-            })
+        MyFetch('ApiColor')
             .then(res => {
                 setColors(res.data)
                 setPaginate(res.paginate)
             })
-            .catch(err => {
-                console.error(err)
-            })
+        // fetch('https://localhost:44363/api/ApiColor')
+        //     .then(res => {
+        //         MyLog(res)
+        //         MyLog(res.statusText)
+        //         // console.log(res)
+        //         // console.log(res.status + " " + res.statusText)
+        //         return res.json()
+        //     })
+        //     .then(res => {
+        //         setColors(res.data)
+        //         setPaginate(res.paginate)
+        //         toast.info("Total Items:" + res.paginate.totalItems)
+        //     })
+        //     .catch(err => {
+        //         console.error(err)
+        //         toast.error(err.message)
+        //     })
     }
 
     //getColors()
@@ -35,10 +59,17 @@ export default () => {
 
             <ul>
                 {colors.map((color, i) => (
-                    <ColorItem color={color} key={i}/>
+                    <ColorItem color={color}
+                               delColor={delColor}
+                               getColors={getColors} key={i}/>
 
                 ))}
             </ul>
+
+            <ColorForm
+                getColors={getColors}
+            />
+
         </>
     )
 
