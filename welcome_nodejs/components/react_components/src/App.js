@@ -8,15 +8,17 @@ import VendorsViewLayout from "./components/vendorsView/VendorsViewLayout";
 import ColorsWrapper from "./components/colors/ColorsWrapper";
 import {ToastContainer} from "react-toastify";
 import ToastifyComponent from "./components/helpers/ToastifyComponent";
+import MockApiWrapper from "./components/mockApi/MockApiWrapper";
 
 function App() {
   return (
     <div className="App">
       <Header/>
-        Main Content
-        <hr/>
+        <main>
           {/*<VendorsViewLayout/>*/}
-        <ColorsWrapper />
+        {/*<ColorsWrapper />*/}
+            <MockApiWrapper/>
+        </main>
       <Footer/>
         <ToastifyComponent/>
         <ToastContainer />

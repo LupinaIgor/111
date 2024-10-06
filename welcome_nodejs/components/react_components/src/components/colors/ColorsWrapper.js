@@ -24,6 +24,9 @@ export default () => {
 
     const getColors = () => {
 
+
+
+
         MyFetch('ApiColor')
             .then(res => {
                 setColors(res.data)
