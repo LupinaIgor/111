@@ -14,6 +14,63 @@ services:
       MINIO_ROOT_USER: root
       MINIO_ROOT_PASSWORD: password
 
+
+  home.sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "P@ssw0rd"  # Укажите надежный пароль для SA
+      ACCEPT_EULA: "Y"                     # Принимаем лицензионное соглашение
+
+
+  home.postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root                # Имя пользователя для PostgreSQL
+      POSTGRES_PASSWORD: password         # Пароль для PostgreSQL
+      POSTGRES_DB: mydatabase             # Название создаваемой базы данных
+
+
+
+  home.adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8090:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: pv321.postgres   # Указываем контейнер PostgreSQL как сервер по умолчанию
+
+
+
+  home.redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+
+  home.mongodb:
+    image: mongo:latest
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+
+
+  home.mongo-express:
+    image: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_URL: mongodb://root:password@home.mongodb:27017/
+      ME_CONFIG_BASICAUTH: false
+    ports:
+      - "8089:8081"
+
+
   home.mariaDb:
     # (in) 3306
     image: mariadb:latest
@@ -35,6 +92,6 @@ services:
     image: phpmyadmin
 #    restart: always
     ports:
-      - 8080:80
+      - "8080:80"
     environment:
       - PMA_ARBITRARY=1
