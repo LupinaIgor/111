@@ -19,6 +19,7 @@ function App() {
         {/*<ColorsWrapper />*/}
             <MockApiWrapper/>
         </main>
+        <InputReactiveComponent/>
       <Footer/>
         <ToastifyComponent/>
         <ToastContainer />
